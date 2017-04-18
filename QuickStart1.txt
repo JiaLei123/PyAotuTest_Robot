@@ -1,0 +1,20 @@
+*** Settings ***
+Library           OperatingSystem
+Library           lib/LoginLibrary.py
+
+*** Test Cases ***
+User can create an account and log in
+    Create Valid User    fred    P4ssw0rd
+    Attempt To Login    fred    P4ssw0rd
+    Status Should Be    Logged In
+
+User cannot log in with bad password
+    Create Valid User    betty    P4ssw0rd
+    Attempt To Login    betty    wrong
+    Status Should Be    Access Denied
+
+*** Keywords ***
+Create valid user
+    [Arguments]    ${username}    ${password}
+    Create user    ${username}    ${password}
+    Status should be    SUCCESS
